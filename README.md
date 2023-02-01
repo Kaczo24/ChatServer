@@ -13,6 +13,8 @@ Server for chat operation, working on websockets.
 Program needs to be compiled using a compiler that supports .NET 7.0 technologies. 
 
 Client reqires System.Text.Json package, or similar.
+
+toturial: https://learn.microsoft.com/pl-pl/dotnet/fundamentals/networking/sockets/socket-services
 ## Operation
 After connection with a socket is established, send client's username with the Login structure. Response structure will be sent in turn, informing about the success or failure of connecting. In case of error, send the username once again.
 
@@ -26,9 +28,10 @@ Every time client wants to send a message through Chat, use Message structure. R
  - target: string - if private, to whom the message is sent (username)
 ### Response
  - code: int
-    - 0 success
-    - 1 invalid formating
-    - 2 invalid username
+    - 0 - success
+    - 1 - invalid formating
+    - 2 - invalid username
+    - 3 - a new user connected; their username is in "from"
  - error: string - if an error occured, the datailed message is stored here
  - message: string - message sent by another user
  - from: string - from whom the message was sent (username)

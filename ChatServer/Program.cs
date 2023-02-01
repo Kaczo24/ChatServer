@@ -50,6 +50,9 @@ async Task Fred(Socket handler)
 
     sockets.Add(username, handler);
 
+    foreach (var other in sockets.Values) if (other != handler)
+            Send(other, new Response(3, null, null, username));
+
     while (true)
     {
         Message response = null;
