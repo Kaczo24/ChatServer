@@ -54,10 +54,15 @@ async Task Fred(Socket handler)
 
     sockets.Add(username, handler);
 
-    foreach (var other in sockets.Values) if (other != handler)
+    foreach (var (key, other) in sockets) if (other != handler)
+        {
             Send(other, new Response(3, null, null, username));
+            Send(handler, new Response(3, null, null, key));
+        }
 
     Console.WriteLine("connected user: " + username);
+
+
 
     while (true)
     {
