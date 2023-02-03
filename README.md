@@ -41,10 +41,11 @@ Every time client wants to send a message through Chat, use Message structure. R
  ```cs
 if (socket == null)
 {
-    ipEndPoint = new IPEndPoint(IPAddress.Parse(ipInput.Text.Trim()), ((int)portInput.Value));
+    ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1000);
 	socket = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 	await socket.ConnectAsync(ipEndPoint);
 }
+
 var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new Login(usernameInput.Text.Trim())));
 var res = socket.Send(msg, SocketFlags.None);
 
