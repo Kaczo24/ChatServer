@@ -27,12 +27,16 @@ async Task Fred(Socket handler)
     int received;
     string username = null;
 
+    Console.WriteLine("connection");
+
     do
     {
         try
         {
             received = await handler.ReceiveAsync(buffer, SocketFlags.None);
-            username = JsonSerializer.Deserialize<Login>(Encoding.UTF8.GetString(buffer, 0, received))?.username;
+            var r = JsonSerializer.Deserialize<Login>(Encoding.UTF8.GetString(buffer, 0, received));
+            if (r is not null)
+                username = r.username;
         }
         finally
         {
@@ -46,12 +50,14 @@ async Task Fred(Socket handler)
             else
                 Send(handler, new Response(0));
         }
-    } while (username != null);
+    } while (username == null);
 
     sockets.Add(username, handler);
 
     foreach (var other in sockets.Values) if (other != handler)
             Send(other, new Response(3, null, null, username));
+
+    Console.WriteLine("connected user: " + username);
 
     while (true)
     {

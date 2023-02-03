@@ -37,7 +37,7 @@ Every time client wants to send a message through Chat, use Message structure. R
  - from: string - from whom the message was sent (username)
  - isPrivate: bool - is the message private, or sent to the public chat
  
- ## Code for idiots
+ ## Code
  ```cs
 if (socket == null)
 {
