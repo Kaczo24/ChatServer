@@ -54,3 +54,25 @@ int received;
 received = socket.Receive(buffer, SocketFlags.None);
 var response = JsonSerializer.Deserialize<Response>(Encoding.UTF8.GetString(buffer, 0, received));
 ```
+if you want to use SendAsync ReceiveAsync on .NET 6 / Framework 4.x.x you can use this
+```cs
+var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new Login(usernameInput.Text.Trim())));
+var res = socket.SendAsync(new ArraySegment<byte>(msg), SocketFlags.None);
+
+var buffer = new byte[1_024];
+int received;
+received = socket.ReceiveAsync(new ArraySegment<byte>(buffer), SocketFlags.None);
+var response = JsonSerializer.Deserialize<Response>(Encoding.UTF8.GetString(buffer, 0, received));
+```
+
+you will also need to install the System.Text.Json nuget package in VS
+when declaring classes for JSON serialization they need their properties to be `get set`
+example Login class
+```cs
+class Login
+{
+    public string username {get; set;} = "";
+    public Login(string _username) => 
+        username = _username;
+}
+```
